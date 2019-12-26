@@ -26,7 +26,7 @@ def build_predictions(audio_dir):
             x = (x - config.min) / (config.max-config.min)
             
             if config.mode == 'conv':
-                x = x.reshape(1, x.shape[1], x.shape[0], 1)
+                x = x.reshape(1, x.shape[0], x.shape[1], 1)
             elif config.mode == 'time':
                 x = np.expand_dims(x, axis=0)
             y_hat = model.predict(x)
@@ -42,7 +42,7 @@ def build_predictions(audio_dir):
 df = pd.read_csv('instruments.csv')
 classes = list(np.unique(df.label))
 fn2class = dict(zip(df.fname, df.label))
-p_path = os.path.join('pickles','time.p')
+p_path = os.path.join('pickles','conv.p')
 
 with open(p_path, 'rb') as handle:
     config = pickle.load(handle)
